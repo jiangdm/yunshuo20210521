@@ -1,0 +1,26 @@
+<html>
+<header>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script type="text/javascript">
+
+    function toLogin() {
+      callIOS({body:'callIOS'})
+    }
+
+    function callIOS(data) {
+      alert("弹出");
+      window.webkit.messageHandlers.toLogin.postMessage(data);
+    }
+
+  </script>
+</header>
+<body bgcolor="red">
+<h2> js回调Test </h2>
+<br/>
+<br/>
+<button type="button" onclick="toLogin()">test回调</button>
+<br/>
+<br/>
+<p id="demo">暂无回调</p>
+</body>
+</html>
