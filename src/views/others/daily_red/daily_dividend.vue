@@ -19,7 +19,7 @@
           <div class="head">
             <span>{{ redData.daily_dividend_title }}</span>
             <div class="red-color">
-              <em>{{ receive_amount ? receive_amount : '0.00'}}</em><span>元</span>
+              <em>{{ accMul(integral,receive_amount) ? accMul(integral,receive_amount) : '0.00'}}</em><span>元</span>
             </div>
           </div>
           <div class="red-number">
@@ -28,8 +28,8 @@
               <span class="pt05 fb">{{ amount.amount ? amount.amount : '0.00'}}</span>
             </div>
             <div class="red-Vdi">
-              <span>今日分红总量</span>
-              <span class="pt05 fb">{{amount.number_sum ? amount.number_sum : 0 }}</span>
+              <span>当前共建值</span>
+              <span class="pt05 fb">{{credit6 ? credit6 : '0.00'}}</span>
             </div>
             <div class="red-Vdi">
               <span>参与分红共建值</span>
@@ -61,6 +61,12 @@
         </div>
 
         <div class="text-box pt1">
+          <div class="wfsf_head">
+            <span>万份收益</span>
+            <div class="red-color">
+              <em>{{million ? million : '0.00'}}</em><span>元</span>
+            </div>
+          </div>
           <div class="much">
             <div class="num" style="text-align: left;">
               <span>已分红天数</span>
@@ -68,7 +74,7 @@
             </div>
             <div class="num" style="text-align: right;">
               <span>剩余分红天数</span>
-              <span class="fb pt05 ulev1">{{ redData.vilidity ? redData.vilidity : 0 }}</span>
+              <span class="fb pt05 ulev1">{{ redData.validity ? redData.validity : 0 }}</span>
             </div>
           </div>
 
@@ -472,6 +478,15 @@ export default daily_red_controller;
         display: flex;
         flex-direction: column;
         text-align:center !important;
+      }
+    }
+    .wfsf_head{
+      padding-bottom:1rem;
+      em{
+        font-style: normal;
+        font-weight: 400;
+        font-size: 46px;
+        color: #fe3055;
       }
     }
 

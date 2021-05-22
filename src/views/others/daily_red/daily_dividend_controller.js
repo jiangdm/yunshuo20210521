@@ -23,6 +23,10 @@ export default {
       Difference: "",
       countdown: "00:00:00",
       timeShow: false,
+      credit6:'0.00',
+      million:'0.00',
+      integral:'0.00',
+      receive_amount:'0.00',
       link: {}
     };
   },
@@ -164,6 +168,7 @@ export default {
         .then(response => {
           if (response.result === 1) {
             console.log(response.data);
+
             this.redData = response.data;
             this.amount = response.data.amount;
             this.receive_log = response.data.receive_log;
@@ -172,9 +177,13 @@ export default {
             this.amount_color = response.data.amount_color;
             this.out_color = response.data.out_color;
             this.daily_dividend_color = response.data.daily_dividend_color;
-            this.receive_amount = redData.receive_one.receive_amount;
-            this.income_credit6 = redData.member.income_credit6;
+            //this.redData.receive_one = {integral:'1723.33',receive_amount : '1723.33'};
+            this.integral = this.redData.receive_one ? this.redData.receive_one.integral : '0.00';
+            this.receive_amount = this.redData.receive_one ? this.redData.receive_one.receive_amount : '0.00';
+            this.income_credit6 = this.redData.member.income_credit6;
             this.fun.setWXTitle(this.redData.daily_dividend_title);
+            this.credit6 = this.redData.member.credit6;
+            this.million = this.redData.million;
 
           } else {
             Toast(response.msg);
@@ -232,7 +241,14 @@ export default {
           id: id
         })
       );
-    }
+    },
+    accMul(num1,num2){
+      let r1, r2, m;
+      r1 = (''+num1).split('.')[1].length;
+      r2 = (''+num2).split('.')[1].length;
+      m = Math.pow(10,Math.max(r1,r2));
+      return (num1 * m + num2 * m) / m;
+    },
   },
   components: { cTitle }
 };
