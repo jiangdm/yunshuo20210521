@@ -31,6 +31,7 @@
               </div>
             </template>
             <template v-else>
+              <p style="font-size:12px;">赠送<span style="color:#f15353;font-weight:bold;">{{ accMul(item.price , gjzMagnification) }}</span>共建值</p>
               <div class="s2">
                 <span v-if="parseInt(item.market_price) && item.market_price != item.price">{{ market_price }} {{ $i18n.t("money") }}{{ item.market_price }}</span>
               </div>
@@ -70,7 +71,7 @@
           <div class="shop_info">
             <ul>
               <li class="title">
-                {{ items.title | escapeTitle }}
+                1{{ items.title | escapeTitle }}
               </li>
             </ul>
             <div>
@@ -217,7 +218,8 @@ export default {
       copy_link: "", //复制链接
       price: "", //现价=>京东价
       market_price: "", //原价
-      integral: window.localStorage.getItem("integral") || "积分"
+      integral: window.localStorage.getItem("integral") || "积分",
+      gjzMagnification: 0,//共建值倍率
     };
   },
   components: { yzGoodsposter },
@@ -294,7 +296,41 @@ export default {
       isDone = false;
     }
   },
+  created() {
+    //获取共建值倍率
+    this.getGjzMagnification();
+  },
   methods: {
+    //共建值计算
+    accMul(arg1,arg2){
+      console.log(arg2);
+      var m=0,s1=arg1.toString(),s2=arg2.toString();
+      try{m+=s1.split(".")[1].length;}catch(e){
+        //
+      }
+      try{m+=s2.split(".")[1].length;}catch(e){
+        //
+      }
+      return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+    },
+    //获取共建值倍率
+    getGjzMagnification() {
+      let _this = this;
+      let _url = "plugin.daily-dividend.api.set.index";
+      $http.get(_url, {}, '').then(
+        function(response) {
+          console.log(response);
+          if(response.result == 1 && response.data){
+            _this.gjzMagnification = parseInt(response.data.beishu) * parseInt(response.data.rate) / 100 ? parseInt(response.data.beishu) * parseInt(response.data.rate) / 100 : 0;
+            console.log(_this.gjzMagnification);
+          }
+        },
+        function(response) {
+          console.log(response);
+        }
+      );
+    },
+
     //获取滚动条当前的位置
     getScrollTop() {
       var scrollTop = 0;
